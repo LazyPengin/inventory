@@ -189,6 +189,31 @@ MVP Slice (Phase 0) includes:
 
 ---
 
+## Decision 8: Expiry Threshold (30 Days)
+
+**Date:** 2026-01-12  
+**Owner:** Agent A/LEAD  
+**Status:** Approved
+
+**Context:**  
+Items with expiry dates need a clear threshold to trigger "expiring soon" alerts. The threshold must balance operational planning time (admins need time to replace items) with alert noise (too long creates unnecessary alerts).
+
+**Decision:**  
+An item is considered "expiring soon" when its expiry date is ≤30 days from the inventory scan timestamp. Alert emails include items marked "expiring soon" alongside missing/battery issues.
+
+**Alternatives considered:**
+1. 7 days: Too aggressive; insufficient time for procurement and replacement
+2. 60 days: Too noisy; creates alert fatigue
+3. Configurable per site/bag: Adds complexity; not needed for MVP validation
+
+**Consequences:**
+- ✅ Clear, testable threshold: BE-7 implementation is straightforward
+- ✅ Reasonable lead time: 30 days allows procurement and planning
+- ✅ Simple logic: No configuration UI needed in Phase 0
+- 🔄 Two-way door: Threshold can be adjusted or made configurable in Phase 1
+
+---
+
 **Owner:** Agent A/LEAD  
 **Last Updated:** 2026-01-12  
 **Next Review:** Before Phase 1 planning
