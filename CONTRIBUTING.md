@@ -2,64 +2,114 @@
 
 Thank you for contributing to this project.
 
-This repository follows a **doc-first, multi-agent, GitHub-first workflow**.
-Please read this document carefully before making changes.
+This repository follows a GitHub-first, doc-first, multi-agent workflow
+designed for clarity, safety, and incremental delivery.
 
----
+By contributing, you agree to follow the rules below.
 
-## Golden Rules
 
-1. **One task = one branch = one Pull Request**
-2. **Never commit directly to `main`**
-3. **A task is done only after the PR is merged into `main`**
-4. **Always start new work from an up-to-date `main`**
-5. **Write docs before writing code**
+## Core Principles
 
----
+- Doc-first: write before you build
+- One task = one branch = one PR
+- No direct commits to main
+- Small, reviewable changes
+- Explicit handoffs between roles
+- Automation over manual steps
 
-## Branching Strategy
+## Roles
 
-- Branch naming:
-    pr/<task-id>-<short-slug>
+A / LEAD
+- Owns scope, priorities, and product decisions
+- Validates PRFAQ, feature definitions, and decisions
+
+B / BUILD
+- Implements tasks exactly as defined in tasks.md
+- Writes production-quality code and tests
+- Never expands scope without approval
+
+C / REVIEW
+- Reviews work against Definition of Done
+- Approves or requests changes
+
+## Source of Truth
+
+- tasks.md is the single source of truth for execution
+- Code must follow tasks, not the other way around
+- If code and tasks diverge, update tasks first
+
+## Branching Rules
+
+- Never commit directly to main
+- Every task must use its own branch
+
+Branch naming:
+pr/<task-id>-<short-slug>
 
 Examples:
-- `pr/infra-1-setup`
-- `pr/db-1-core-schema`
-- `pr/be-2-sites-crud`
+pr/be-2-sites-crud
+pr/db-1-core-schema
 
----
+## Commit Rules
 
-## Development Workflow
+Commit message format:
+<TASK-ID>: <short description> (AgentID:<id>)
 
-1. Start with documentation (PRFAQ / feature / decisions / tasks)
-2. Create a branch **before coding**
-3. Implement **one task only**
-4. Push branch to GitHub
-5. Open a Pull Request to `main`
-6. Request C/REVIEW approval
-7. Merge PR into `main`
-8. Sync local `main`
-9. Start next task
+Example:
+BE-4: bag item configuration endpoints (AgentID:B01)
 
----
+Only commit files related to the current task.
 
-## Pull Request Requirements
+## Testing Requirements
 
-Each PR must include:
-- Task ID in the title (e.g. `BE-2: Site CRUD endpoints`)
-- Clear scope description
-- How to run tests
-- Migration upgrade/downgrade confirmation (if applicable)
-- Risk and rollback notes
+Before opening a Pull Request:
+- All relevant tests must pass
 
----
-
-## Testing
-
-Before requesting review:
-```bash
+Default command:
+cd backend
 python -m pytest -q
 
-For database changes:
- alembic upgrade head
- alembic downgrade -1
+## Pull Request Rules
+
+- One task = one Pull Request
+- Do not bundle multiple tasks
+
+PR validity rule:
+- A real PR URL must be /pull/<number>
+- /pull/new/... links are not valid
+
+Preferred PR creation method:
+GitHub CLI (gh)
+
+## Review and Merge
+
+- All PRs target main
+- Merge only after review approval
+- After merge:
+  - Sync local main
+  - Delete the feature branch
+
+## End-of-Task Checklist
+
+A task is complete only after:
+- Tests pass
+- Code is committed
+- Branch is pushed
+- Pull Request is created
+- Handoff includes PR link, git show --stat, and test output
+
+See .cursor/rules/end-of-task.md for details.
+
+## Stop Conditions
+
+Stop and ask for guidance if:
+- Scope is unclear
+- A change impacts MVP goals
+- A task modifies another task's interface
+- Tests fail
+
+## Related Documents
+
+- .cursor/rules/workflow.md
+- .cursor/rules/github-workflow.md
+- .cursor/rules/end-of-task.md
