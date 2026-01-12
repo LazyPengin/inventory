@@ -184,6 +184,14 @@ For every task:
 - **Merge the PR before starting the next task**
 - Delete the branch after merge (remote + local)
 
+### PR Validity Rule (Mandatory)
+
+- The handoff MUST include a real Pull Request URL in the form:
+  `/pull/<number>`
+- Links like `/pull/new/...` or "PR ready" without a number are NOT accepted
+- If a valid PR URL is missing, C/REVIEW must refuse the handoff
+- Builders should create PRs via GitHub UI or GitHub CLI (`gh pr create`)
+
 ### Review loop (per task)
 After each task is implemented:
 1. B/BUILD submits a PR with task ID in title (e.g., "INFRA-1: Project setup")
@@ -194,14 +202,6 @@ After each task is implemented:
 3. C/REVIEW validates against DoD (Definition of Done)
 4. C/REVIEW approves or requests changes
 5. Once approved: merge PR → sync `main` → start next task
-
-After each task is implemented:
-1. B/BUILD submits PR with task ID in title (e.g., "INFRA-1: Project setup")
-2. B/BUILD documents changes and any risks
-3. C/REVIEW validates against DoD (Definition of Done)
-4. C/REVIEW approves or requests changes
-5. If approved: merge PR into `main` and sync local `main`
-6. Start next task from updated `main`
 
 ---
 

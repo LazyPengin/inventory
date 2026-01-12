@@ -15,3 +15,9 @@
 10. Request C/REVIEW only through a Pull Request.
 11. A task is considered **done only after the PR is merged into `main`**.
 12. Always start the next task from an updated `main` branch.
+
+## PR Creation (Automation)
+
+- PRs should be created via GitHub CLI (`gh`) whenever possible.
+- Builders must run `gh pr create` as part of the end-of-task checklist.
+- Handoffs without a valid PR URL (/pull/<number>) are considered incomplete.
