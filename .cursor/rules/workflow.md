@@ -21,3 +21,11 @@
 - PRs should be created via GitHub CLI (`gh`) whenever possible.
 - Builders must run `gh pr create` as part of the end-of-task checklist.
 - Handoffs without a valid PR URL (/pull/<number>) are considered incomplete.
+
+## End-of-Task Checklist (Mandatory)
+
+- Run: python -m pytest -q
+- Commit with: <TASK-ID>: <summary> (AgentID:<id>)
+- Push branch: git push -u origin <branch>
+- Create PR via gh: gh pr create ...
+- Handoff must include PR URL (/pull/<number>), git show --stat, and test output
