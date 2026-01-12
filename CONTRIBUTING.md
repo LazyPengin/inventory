@@ -1,115 +1,78 @@
 # Contributing Guide
 
-Thank you for contributing to this project.
+This project supports multiple agents (human and AI).
+Consistency and discipline are required.
 
-This repository follows a GitHub-first, doc-first, multi-agent workflow
-designed for clarity, safety, and incremental delivery.
+## Before You Start
 
-By contributing, you agree to follow the rules below.
+You MUST:
+- Read workflow.md
+- Follow github-workflow.md
+- Run start-new-task.md
 
+Skipping these steps may invalidate your contribution.
 
-## Core Principles
+## How to Contribute
 
-- Doc-first: write before you build
-- One task = one branch = one PR
-- No direct commits to main
-- Small, reviewable changes
-- Explicit handoffs between roles
-- Automation over manual steps
+1. Pick a task from tasks.md
+2. Run Start New Task checklist
+3. Create a branch
+4. Implement only the scoped task
+5. Write tests
+6. Run tests
+7. Open PR
+8. Wait for approval
 
-## Roles
+## Coding Standards
 
-A / LEAD
-- Owns scope, priorities, and product decisions
-- Validates PRFAQ, feature definitions, and decisions
+- Keep changes focused
+- Avoid unrelated refactors
+- Follow existing patterns
+- Tests are mandatory
 
-B / BUILD
-- Implements tasks exactly as defined in tasks.md
-- Writes production-quality code and tests
-- Never expands scope without approval
+## Task Gates (Mandatory)
 
-C / REVIEW
-- Reviews work against Definition of Done
-- Approves or requests changes
+This project enforces two mandatory gates:
 
-## Source of Truth
+1. Start New Task  
+   Required before ANY code is written.
 
-- tasks.md is the single source of truth for execution
-- Code must follow tasks, not the other way around
-- If code and tasks diverge, update tasks first
+2. End Of Task  
+   Required before starting the next task.
 
-## Branching Rules
+These gates apply to all contributors (human and AI).
 
-- Never commit directly to main
-- Every task must use its own branch
-
-Branch naming:
-pr/<task-id>-<short-slug>
-
-Examples:
-pr/be-2-sites-crud
-pr/db-1-core-schema
-
-## Commit Rules
-
-Commit message format:
-<TASK-ID>: <short description> (AgentID:<id>)
-
-Example:
-BE-4: bag item configuration endpoints (AgentID:B01)
-
-Only commit files related to the current task.
-
-## Testing Requirements
-
-Before opening a Pull Request:
-- All relevant tests must pass
-
-Default command:
-cd backend
-python -m pytest -q
-
-## Pull Request Rules
-
-- One task = one Pull Request
-- Do not bundle multiple tasks
-
-PR validity rule:
-- A real PR URL must be /pull/<number>
-- /pull/new/... links are not valid
-
-Preferred PR creation method:
-GitHub CLI (gh)
-
-## Review and Merge
-
-- All PRs target main
-- Merge only after review approval
-- After merge:
-  - Sync local main
-  - Delete the feature branch
-
-## End-of-Task Checklist
-
-A task is complete only after:
-- Tests pass
-- Code is committed
-- Branch is pushed
-- Pull Request is created
-- Handoff includes PR link, git show --stat, and test output
-
-See .cursor/rules/end-of-task.md for details.
-
-## Stop Conditions
-
-Stop and ask for guidance if:
-- Scope is unclear
-- A change impacts MVP goals
-- A task modifies another task's interface
-- Tests fail
-
-## Related Documents
-
-- .cursor/rules/workflow.md
-- .cursor/rules/github-workflow.md
+See:
+- .cursor/rules/start-new-task.md
 - .cursor/rules/end-of-task.md
+
+## Commits
+
+Commits should include task ID when possible.
+Example:
+BE-3: bag CRUD endpoints
+
+## Reviews
+
+Reviews check:
+- Scope
+- Clarity
+- Tests
+- Alignment with decisions
+
+## Completing a Task
+
+After implementation and merge:
+- Run the End Of Task checklist
+- Write a clear handoff
+- Confirm main is synced
+
+See:
+- .cursor/rules/end-of-task.md
+
+## Final Rule
+
+If something is unclear:
+- Do not guess
+- Check decisions.md
+- Ask before implementing

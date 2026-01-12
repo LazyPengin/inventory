@@ -1,129 +1,71 @@
-# GitHub Workflow (Mandatory)
+# GitHub Workflow
 
-This document defines how GitHub is used in this project.
-All contributors and agents MUST follow these rules.
+This file defines how GitHub is used in this project.
+It applies to all contributors and agents.
 
-This workflow is designed for:
-- GitHub-first development
-- Small, incremental Pull Requests
-- Automation via GitHub CLI (gh)
-- Multi-agent collaboration (Lead / Build / Review)
+## Branching Rules
 
----
+- Default branch: main
+- All work happens on a branch
 
-## 1. Branching Strategy
-
-- Never commit directly to main
-- Every task must be implemented in its own branch
-
-Branch naming convention:
+Branch naming:
 pr/<task-id>-<short-slug>
 
 Examples:
-- pr/infra-1-project-setup
-- pr/be-3-bags-crud
+- pr/be-2-sites-crud
 - pr/db-1-core-schema
 
----
+## Pull Requests
 
-## 2. One Task = One Pull Request
+Every task MUST result in a Pull Request.
 
-- Each task from tasks.md maps to exactly one Pull Request
-- Do not bundle multiple tasks in the same PR
-- A task is considered complete only after its PR is merged into main
+PR requirements:
+- Title includes task ID
+- Clear summary
+- Test output included
+- Migration output included if applicable
 
----
+## Merge Rules
 
-## 3. Local Development Rules
+- PR approval required
+- All tests must pass
+- No direct commits to main
+- Merge before starting next task
+- Delete branch after merge
 
-Before pushing code:
-- Working tree must be clean
-- Only files related to the task may be committed
-- All required tests must pass
+## Task Completion
 
-Project defaults:
-- Backend: python -m pytest -q
-- Database changes: alembic upgrade and downgrade must succeed
+A task is only considered complete when:
+- PR is merged into main
+- Tests are green
+- End-of-task checklist has been completed
 
----
+## Order of Operations
 
-## 4. Commit Rules
+1. Create branch
+2. Implement task
+3. Run tests
+4. Push branch
+5. Open PR
+6. Review
+7. Merge
+8. Sync main
+9. Start next task
 
-Commit message format (mandatory):
+## Tooling
 
-<TASK-ID>: <short description> (AgentID:<id>)
+Using GitHub CLI is encouraged.
 
 Example:
-BE-3: bags CRUD + qr_token (AgentID:B01)
+gh pr create --base main --head <branch> --title "<TASK-ID>: <title>"
 
----
+## Task Completion Contract
 
-## 5. Push Rules
+A task is only complete when ALL of the following are true:
 
-- Push the branch to origin before requesting review
-- Use:
-git push -u origin <branch-name>
+- PR is merged into main
+- Tests are green
+- End Of Task checklist has been completed
+- Main branch is synced locally
 
----
-
-## 6. Pull Request Creation (Mandatory)
-
-Preferred method: GitHub CLI (gh)
-
-If gh is available, PRs must be created using:
-
-gh pr create --base main --head <branch-name> --title "<TASK-ID>: <title>" --body "<PR body>"
-
-PR validity rule:
-- A valid PR URL must be in the form /pull/<number>
-- Links like /pull/new/... are NOT valid PRs
-- If a handoff does not include a real PR URL, review must be refused
-
----
-
-## 7. Pull Request Content Requirements
-
-Each Pull Request must include:
-- Clear description of what changed
-- Explicit out-of-scope items
-- How to test the change locally
-- Risks and rollback plan
-
-PRs should remain small and easy to review.
-
----
-
-## 8. Review and Merge Rules
-
-- All PRs target main
-- Merge only after:
-  - Tests pass
-  - C/REVIEW approval
-- After merge:
-  - Sync local main
-  - Delete the branch (local and remote)
-
----
-
-## 9. Handoff Contract
-
-A handoff to C/REVIEW is valid only if it includes:
-- A real PR URL (/pull/<number>)
-- git show --stat output
-- Test output
-- Short summary of changes and risks
-
-If any element is missing, the handoff is invalid.
-
----
-
-## 10. Automation Expectation
-
-Builders are expected to:
-- Use GitHub CLI when available
-- Follow the End-of-Task checklist
-- Stop and report errors instead of bypassing the workflow
-
-Related documents:
-- workflow.md
-- end-of-task.md
+If not, no new task may start.

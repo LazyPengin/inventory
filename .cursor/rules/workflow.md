@@ -1,113 +1,80 @@
-# Standard Project Workflow
+# Standard Workflow
 
-This document defines HOW work flows through the team.
-It is tool-agnostic and applies regardless of language, framework, or repository.
+This file defines the global working rules for this project.
+It applies to all agents (human or AI).
 
----
+## Core Principles
 
-## 1. Roles
+1. Documentation before implementation
+2. Small, incremental tasks (one task = one PR)
+3. Explicit handoffs between agents
+4. Single source of truth: tasks.md
+5. Prefer reversible decisions
+6. Clarity before optimization
 
-### A / LEAD
-- Owns vision, scope, and priorities
-- Writes and validates PRFAQ, feature.md, and decisions.md
-- Arbitrates trade-offs and scope changes
-- Gives final approval on direction
+## Task Lifecycle (Mandatory)
 
-### B / BUILD
-- Implements tasks exactly as specified in `tasks.md`
-- Writes production-quality code
-- Adds tests and documentation as required
-- Never changes scope without approval
+Every task follows this lifecycle:
 
-### C / REVIEW
-- Reviews work against Definition of Done
-- Verifies scope, correctness, and safety
-- Does NOT introduce new scope
-- Approves or requests changes
+1. Start New Task
+2. Implementation
+3. Pull Request
+4. Merge to main
+5. End Of Task
+6. Start next task
 
----
+Skipping any step invalidates the task.
 
-## 2. Doc-First Principle
+## Cursor Prompts (Mandatory)
 
-> We write before we build.
+The following Cursor prompts MUST be used:
 
-Before any implementation:
-- PRFAQ must exist
-- Feature scope must be explicit
-- Non-goals must be written
-- Risks and rollback must be considered
+- Start New Task  
+  See: .cursor/rules/start-new-task.md  
+  Prompt: .cursor/rules/prompts/start-task.md
 
-If documentation is missing or unclear:
-- STOP
-- Ask for clarification
+- Close Task  
+  See: .cursor/rules/end-of-task.md  
+  Prompt: .cursor/rules/prompts/close-task.md
 
----
+Cursor is expected to refuse implementation if these prompts are skipped.
 
-## 3. Source of Truth
+## Mandatory Task Initialization
 
-- `tasks.md` is the single source of truth for execution
-- Code must follow tasks, not the other way around
-- If code and tasks diverge → tasks must be updated first
+Before starting ANY task:
 
----
+- The "Start New Task" checklist MUST be completed
+- No code may be written before this step
+- Any work started without this step is invalid
 
-## 4. Execution Rules
+Reference:
+- .cursor/rules/start-new-task.md
 
-- One task at a time
-- One agent owns a task
-- No parallel implementation on the same task
-- Finish → merge → move to next task
+## Mandatory Task Closure
 
----
+Before considering ANY task complete:
 
-## 5. Handoffs (Mandatory)
+- The **End Of Task** checklist MUST be completed
+- Tests MUST pass
+- The task MUST be merged to main
+- A handoff MUST be written
 
-All transitions between agents MUST be explicit.
+Reference:
+- .cursor/rules/end-of-task.md
 
-A valid handoff includes:
-- What was done
-- What is out of scope
-- What needs attention
-- What is expected next
+A task is NOT complete until this step is done.
 
-Silent or implicit handoffs are forbidden.
+## GitHub First
 
----
+All work MUST follow:
+- .cursor/rules/github-workflow.md
 
-## 6. Review Philosophy
+No direct commits to main.
+No branch without a task.
 
-- Review against DoD, not personal preference
-- Prefer simple, reversible solutions
-- Flag risks early
-- No blame, only facts
+## Enforcement
 
----
-
-## 7. Incremental Delivery
-
-- Optimize for small, safe steps
-- Avoid “big bang” changes
-- Learn from production usage
-- Iterate intentionally
-
----
-
-## 8. Stop Conditions
-
-Agents MUST stop and escalate if:
-- Scope is unclear
-- A decision impacts MVP goals
-- A task requires changing an interface
-- Tests fail or assumptions break
-
----
-
-## 9. Relationship to Other Rules
-
-This document defines **process and behavior**.
-
-For GitHub-specific rules, see:
-- `github-workflow.md`
-
-For automation details, see:
-- `end-of-task.md`
+Rule priority:
+1. workflow.md
+2. github-workflow.md
+3. CONTRIBUTING.md
