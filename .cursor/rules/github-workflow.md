@@ -1,59 +1,129 @@
-# GitHub Workflow Rules (Mandatory)
+# GitHub Workflow (Mandatory)
 
-## Golden rule
-One task = one branch = one PR = merge to main before starting next task.
+This document defines how GitHub is used in this project.
+All contributors and agents MUST follow these rules.
 
-## Branch naming
-- pr/<task-id>-<short-slug>
+This workflow is designed for:
+- GitHub-first development
+- Small, incremental Pull Requests
+- Automation via GitHub CLI (gh)
+- Multi-agent collaboration (Lead / Build / Review)
+
+---
+
+## 1. Branching Strategy
+
+- Never commit directly to main
+- Every task must be implemented in its own branch
+
+Branch naming convention:
+pr/<task-id>-<short-slug>
+
 Examples:
+- pr/infra-1-project-setup
+- pr/be-3-bags-crud
 - pr/db-1-core-schema
-- pr/be-2-sites-crud
-- pr/infra-2-email
 
-## Before coding (required)
-Builder must output:
-- Task ID
-- Branch name
-- Files expected to change
-- Out of scope list
-Then wait for C/REVIEW approval.
+---
 
-## Work must NOT happen on main
-- No direct commits on main.
-- If work accidentally lands on main:
-  - immediately create a branch from that state
-  - reset main back to origin/main
-  - open PR from the branch
+## 2. One Task = One Pull Request
 
-## Commit rules
-- Small commits allowed, but PR must contain only one task.
-- Commit message:
-  - <task-id>: <summary> (AgentID:<id>)
-Examples:
-- DB-1: core schema + migration (AgentID:B01)
-- BE-2: sites CRUD endpoints (AgentID:B01)
+- Each task from tasks.md maps to exactly one Pull Request
+- Do not bundle multiple tasks in the same PR
+- A task is considered complete only after its PR is merged into main
 
-## PR rules (required)
-PR description must include:
-- Task ID + scope
-- How to run tests
-- Migration up/down confirmation (if DB change)
-- Risk + rollback
+---
 
-## Merge rules
+## 3. Local Development Rules
+
+Before pushing code:
+- Working tree must be clean
+- Only files related to the task may be committed
+- All required tests must pass
+
+Project defaults:
+- Backend: python -m pytest -q
+- Database changes: alembic upgrade and downgrade must succeed
+
+---
+
+## 4. Commit Rules
+
+Commit message format (mandatory):
+
+<TASK-ID>: <short description> (AgentID:<id>)
+
+Example:
+BE-3: bags CRUD + qr_token (AgentID:B01)
+
+---
+
+## 5. Push Rules
+
+- Push the branch to origin before requesting review
+- Use:
+git push -u origin <branch-name>
+
+---
+
+## 6. Pull Request Creation (Mandatory)
+
+Preferred method: GitHub CLI (gh)
+
+If gh is available, PRs must be created using:
+
+gh pr create --base main --head <branch-name> --title "<TASK-ID>: <title>" --body "<PR body>"
+
+PR validity rule:
+- A valid PR URL must be in the form /pull/<number>
+- Links like /pull/new/... are NOT valid PRs
+- If a handoff does not include a real PR URL, review must be refused
+
+---
+
+## 7. Pull Request Content Requirements
+
+Each Pull Request must include:
+- Clear description of what changed
+- Explicit out-of-scope items
+- How to test the change locally
+- Risks and rollback plan
+
+PRs should remain small and easy to review.
+
+---
+
+## 8. Review and Merge Rules
+
+- All PRs target main
 - Merge only after:
-  - tests pass locally
-  - C/REVIEW approves
+  - Tests pass
+  - C/REVIEW approval
 - After merge:
-  - delete the PR branch (remote and local)
-  - sync local main: git checkout main && git pull
+  - Sync local main
+  - Delete the branch (local and remote)
 
-## Mandatory end-of-task checklist (Builder)
-- git status clean
-- tests passing
-- push branch
-- PR opened
-- handoff posted to C/REVIEW with:
-  - git show --stat
-  - pytest output
-  - alembic upgrade/downgrade output (if relevant)
+---
+
+## 9. Handoff Contract
+
+A handoff to C/REVIEW is valid only if it includes:
+- A real PR URL (/pull/<number>)
+- git show --stat output
+- Test output
+- Short summary of changes and risks
+
+If any element is missing, the handoff is invalid.
+
+---
+
+## 10. Automation Expectation
+
+Builders are expected to:
+- Use GitHub CLI when available
+- Follow the End-of-Task checklist
+- Stop and report errors instead of bypassing the workflow
+
+Related documents:
+- workflow.md
+- end-of-task.md
