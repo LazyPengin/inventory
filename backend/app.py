@@ -17,6 +17,11 @@ CORS(app)
 app.config['DATABASE_URL'] = os.getenv('DATABASE_URL', 'sqlite:///qr_inventory.db')
 app.config['ALERTS_ENABLED'] = os.getenv('ALERTS_ENABLED', 'false').lower() == 'true'
 
+# Register blueprints
+from routes import auth_bp, site_bp
+app.register_blueprint(auth_bp)
+app.register_blueprint(site_bp)
+
 
 @app.route('/health', methods=['GET'])
 def health_check():
@@ -33,8 +38,21 @@ def root():
     """Root endpoint"""
     return jsonify({
         'service': 'QR Inventory MVP',
+        'version': '0.1.0',
         'endpoints': {
-            'health': '/health'
+            'health': '/health',
+            'auth': {
+                'login': '/api/auth/login',
+                'logout': '/api/auth/logout',
+                'me': '/api/auth/me'
+            },
+            'sites': {
+                'create': 'POST /api/sites',
+                'list': 'GET /api/sites',
+                'get': 'GET /api/sites/<id>',
+                'update': 'PATCH /api/sites/<id>',
+                'delete': 'DELETE /api/sites/<id>'
+            }
         }
     }), 200
 
