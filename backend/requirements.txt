@@ -1,0 +1,19 @@
+# QR Inventory MVP - Backend Dependencies
+# Python 3.11+
+
+# Web Framework
+Flask==3.0.0
+Flask-CORS==4.0.0
+
+# Database
+SQLAlchemy==2.0.25
+alembic==1.13.1
+psycopg[binary]
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# Utilities
+python-dateutil==2.8.2
+
+pytest
