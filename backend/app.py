@@ -18,9 +18,10 @@ app.config['DATABASE_URL'] = os.getenv('DATABASE_URL', 'sqlite:///qr_inventory.d
 app.config['ALERTS_ENABLED'] = os.getenv('ALERTS_ENABLED', 'false').lower() == 'true'
 
 # Register blueprints
-from routes import auth_bp, site_bp
+from routes import auth_bp, site_bp, bag_bp
 app.register_blueprint(auth_bp)
 app.register_blueprint(site_bp)
+app.register_blueprint(bag_bp)
 
 
 @app.route('/health', methods=['GET'])
