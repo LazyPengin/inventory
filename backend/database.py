@@ -2,9 +2,8 @@
 QR Inventory MVP - Database Configuration
 """
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, event
+from sqlalchemy.orm import declarative_base, sessionmaker
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,6 +21,14 @@ engine = create_engine(
     connect_args={'check_same_thread': False} if 'sqlite' in DATABASE_URL else {},
     echo=True if os.getenv('FLASK_DEBUG', 'True').lower() == 'true' else False
 )
+
+# Enable foreign key constraints for SQLite
+if 'sqlite' in DATABASE_URL:
+    @event.listens_for(engine, "connect")
+    def set_sqlite_pragma(dbapi_conn, connection_record):
+        cursor = dbapi_conn.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
 
 # Session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -175,12 +175,33 @@ The QR Inventory MVP feature package is complete and ready for implementation. A
 
 ## Handoff to C/REVIEW
 
+### GitHub-first (Mandatory)
+For every task:
+- Create a branch **before** coding: `pr/<task-id>-<slug>`
+- Push the branch to GitHub
+- Open a Pull Request (PR) to `main`
+- Only then request C/REVIEW approval
+- **Merge the PR before starting the next task**
+- Delete the branch after merge (remote + local)
+
+### Review loop (per task)
+After each task is implemented:
+1. B/BUILD submits a PR with task ID in title (e.g., "INFRA-1: Project setup")
+2. B/BUILD posts handoff including:
+   - `git show --stat`
+   - test output (`python -m pytest -q`)
+   - migration up/down output (if DB change)
+3. C/REVIEW validates against DoD (Definition of Done)
+4. C/REVIEW approves or requests changes
+5. Once approved: merge PR → sync `main` → start next task
+
 After each task is implemented:
 1. B/BUILD submits PR with task ID in title (e.g., "INFRA-1: Project setup")
 2. B/BUILD documents changes and any risks
 3. C/REVIEW validates against DoD (Definition of Done)
 4. C/REVIEW approves or requests changes
-5. Repeat for next task
+5. If approved: merge PR into `main` and sync local `main`
+6. Start next task from updated `main`
 
 ---
 
