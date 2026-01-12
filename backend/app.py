@@ -18,10 +18,11 @@ app.config['DATABASE_URL'] = os.getenv('DATABASE_URL', 'sqlite:///qr_inventory.d
 app.config['ALERTS_ENABLED'] = os.getenv('ALERTS_ENABLED', 'false').lower() == 'true'
 
 # Register blueprints
-from routes import auth_bp, site_bp, bag_bp
+from routes import auth_bp, site_bp, bag_bp, bag_item_bp
 app.register_blueprint(auth_bp)
 app.register_blueprint(site_bp)
 app.register_blueprint(bag_bp)
+app.register_blueprint(bag_item_bp)
 
 
 @app.route('/health', methods=['GET'])
@@ -53,6 +54,20 @@ def root():
                 'get': 'GET /api/sites/<id>',
                 'update': 'PATCH /api/sites/<id>',
                 'delete': 'DELETE /api/sites/<id>'
+            },
+            'bags': {
+                'create': 'POST /api/sites/<site_id>/bags',
+                'list': 'GET /api/sites/<site_id>/bags',
+                'get': 'GET /api/bags/<id>',
+                'update': 'PATCH /api/bags/<id>',
+                'delete': 'DELETE /api/bags/<id>'
+            },
+            'items': {
+                'create': 'POST /api/bags/<bag_id>/items',
+                'list': 'GET /api/bags/<bag_id>/items',
+                'get': 'GET /api/items/<id>',
+                'update': 'PATCH /api/items/<id>',
+                'delete': 'DELETE /api/items/<id>'
             }
         }
     }), 200
