@@ -3,8 +3,8 @@ Authentication service - handles login, token generation, password hashing
 """
 import os
 import jwt
+import bcrypt as bcrypt_lib
 from datetime import datetime, timezone, timedelta
-from passlib.hash import bcrypt
 from sqlalchemy.orm import Session
 from models.admin import Admin
 
@@ -15,12 +15,17 @@ class AuthService:
     @staticmethod
     def hash_password(password: str) -> str:
         """Hash password using bcrypt"""
-        return bcrypt.hash(password)
+        password_bytes = password.encode('utf-8')
+        salt = bcrypt_lib.gensalt()
+        hashed = bcrypt_lib.hashpw(password_bytes, salt)
+        return hashed.decode('utf-8')
 
     @staticmethod
     def verify_password(plain_password: str, hashed_password: str) -> bool:
         """Verify password against hash"""
-        return bcrypt.verify(plain_password, hashed_password)
+        password_bytes = plain_password.encode('utf-8')
+        hashed_bytes = hashed_password.encode('utf-8')
+        return bcrypt_lib.checkpw(password_bytes, hashed_bytes)
 
     @staticmethod
     def generate_token(username: str) -> str:
