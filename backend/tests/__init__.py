@@ -1,0 +1,3 @@
+"""
+QR Inventory MVP - Tests
+"""

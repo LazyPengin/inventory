@@ -1,0 +1,6 @@
+"""
+QR Inventory MVP - Business Logic Services
+"""
+from .auth_service import AuthService
+
+__all__ = ['AuthService']
